@@ -8,8 +8,9 @@
 </template>
 
 <script>
+/* global google */
 export default {
-  name: 'RouteSuggestionsComponent'
+  name: 'RouteSuggestionsComponent',
   data() {
     return {
       directionsService: null,
@@ -21,9 +22,13 @@ export default {
       types: ['(cities)'],
     };
     const inputStart = document.getElementById('start');
-    const autocompleteStart = new google.maps.places.Autocomplete(inputStart, options);
+    if (inputStart) {
+      new google.maps.places.Autocomplete(inputStart, options);
+    }
     const inputEnd = document.getElementById('end');
-    const autocompleteEnd = new google.maps.places.Autocomplete(inputEnd, options);
+    if (inputEnd) { 
+      new google.maps.places.Autocomplete(inputEnd, options);
+    }
   },
   methods: {
     renderTurnByTurnDirections(steps) {
@@ -39,8 +44,10 @@ export default {
       });
     },
     calculateAndDisplayRoute() {
-      const start = document.getElementById('start').value;
-      const end = document.getElementById('end').value;
+      const startInput = document.getElementById('start');
+      const endInput = document.getElementById('end');
+      const start = startInput ? startInput.value : '';
+      const end = endInput ? endInput.value : '';
       if (!start || !end) {
         alert('Please enter both origin and destination!');
         return;

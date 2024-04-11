@@ -5,8 +5,8 @@
       <h1>Scenic Navigation App</h1>
     </header>
     <main>
-      <MapComponent ref="mapComponent"/>
-      <RouteSuggestionsComponent @directionsCalculated="handleDirectionsCalculated"/>
+      <MapComponent ref="mapComponent" @api-key-loaded="handleApiKeyLoaded" />
+      <RouteSuggestionsComponent :api-key="apiKey" @directionsCalculated="handleDirectionsCalculated"/>
     </main>
   </div>
 </template>
@@ -19,14 +19,18 @@ export default {
   name: 'App',
   data() {
     return {
-      logo: require('@/assets/logo.png')
-    }
+      logo: require('@/assets/logo.png'),
+      apiKey: '',
+    };
   },
   components: {
     MapComponent,
-    RouteSuggestionsComponent
+    RouteSuggestionsComponent,
   },
-   methods: {
+  methods: {
+    handleApiKeyLoaded(apiKey) {
+      this.apiKey = apiKey;
+    },
     handleDirectionsCalculated(directions) {
       this.$refs.mapComponent.renderDirections(directions);
     },
